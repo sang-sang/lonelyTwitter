@@ -14,52 +14,52 @@ import android.util.Log;
 
 public class TweetsFileManager {
 
-	private Context ctx;
+    private Context ctx;
 
-	public TweetsFileManager(Context ctx) {
-		this.ctx = ctx;
-	}
+    public TweetsFileManager(Context ctx) {
+        this.ctx = ctx;
+    }
 
-	@SuppressWarnings("unchecked")
-	public List<NormalLonelyTweet> loadTweets() {
-		List<NormalLonelyTweet> tweets = new ArrayList<NormalLonelyTweet>();
+    @SuppressWarnings("unchecked")
+    public List<NormalLonelyTweet> loadTweets() {
+        List<NormalLonelyTweet> tweets = new ArrayList<NormalLonelyTweet>();
 
-		try {
-			FileInputStream fis = ctx.openFileInput("file.sav");
-			ObjectInputStream ois = new ObjectInputStream(fis);
+        try {
+            FileInputStream fis = ctx.openFileInput("file.sav");
+            ObjectInputStream ois = new ObjectInputStream(fis);
 
-			Object o = ois.readObject();
+            Object o = ois.readObject();
 
-			if (o instanceof ArrayList) {
-				tweets = (ArrayList<NormalLonelyTweet>) o;
-			} else {
-				Log.i("LonelyTwitter", "Error casting");
-			}
+            if (o instanceof ArrayList) {
+                tweets = (ArrayList<NormalLonelyTweet>) o;
+            } else {
+                Log.i("LonelyTwitter", "Error casting");
+            }
 
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
 
-		return tweets;
-	}
+        return tweets;
+    }
 
-	public void saveTweets(List<NormalLonelyTweet> tweets) {
-		try {
-			FileOutputStream fos = ctx.openFileOutput("file.sav", 0);
-			ObjectOutputStream oos = new ObjectOutputStream(fos);
+    public void saveTweets(List<NormalLonelyTweet> tweets) {
+        try {
+            FileOutputStream fos = ctx.openFileOutput("file.sav", 0);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
 
-			oos.writeObject(tweets);
+            oos.writeObject(tweets);
 
-			fos.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+            fos.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 }

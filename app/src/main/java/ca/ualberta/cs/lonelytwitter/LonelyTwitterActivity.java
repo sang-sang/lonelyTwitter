@@ -13,57 +13,57 @@ import android.widget.Toast;
 
 public class LonelyTwitterActivity extends Activity {
 
-	private EditText bodyText;
-	private ListView oldTweetsList;
+    private EditText bodyText;
+    private ListView oldTweetsList;
 
-	private List<NormalLonelyTweet> tweets;
-	private ArrayAdapter<NormalLonelyTweet> adapter;
-	private TweetsFileManager tweetsProvider;
+    private List<NormalLonelyTweet> tweets;
+    private ArrayAdapter<NormalLonelyTweet> adapter;
+    private TweetsFileManager tweetsProvider;
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.main);
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.main);
 
-		bodyText = (EditText) findViewById(R.id.body);
-		oldTweetsList = (ListView) findViewById(R.id.oldTweetsList);
-	}
+        bodyText = (EditText) findViewById(R.id.body);
+        oldTweetsList = (ListView) findViewById(R.id.oldTweetsList);
+    }
 
-	@Override
-	protected void onStart() {
-		super.onStart();
+    @Override
+    protected void onStart() {
+        super.onStart();
 
-		tweetsProvider = new TweetsFileManager(this);
-		tweets = tweetsProvider.loadTweets();
-		adapter = new ArrayAdapter<NormalLonelyTweet>(this, R.layout.list_item,
-				tweets);
-		oldTweetsList.setAdapter(adapter);
-	}
+        tweetsProvider = new TweetsFileManager(this);
+        tweets = tweetsProvider.loadTweets();
+        adapter = new ArrayAdapter<NormalLonelyTweet>(this, R.layout.list_item,
+                tweets);
+        oldTweetsList.setAdapter(adapter);
+    }
 
-	public void save(View v) {
-		String text = bodyText.getText().toString();
+    public void save(View v) {
+        String text = bodyText.getText().toString();
 
-		NormalLonelyTweet tweet;
+        NormalLonelyTweet tweet;
 
-		tweet = new NormalLonelyTweet(text, new Date());
+        tweet = new NormalLonelyTweet(text, new Date());
 
-		//TODO: use different sub-classes (Normal or Important) based on usage of "*" in the text.
-		
-		if (tweet.isValid()) {
-			tweets.add(tweet);
-			adapter.notifyDataSetChanged();
+        //TODO: use different sub-classes (Normal or Important) based on usage of "*" in the text.
 
-			bodyText.setText("");
-			tweetsProvider.saveTweets(tweets);
-		} else {
-			Toast.makeText(this, "Invalid tweet", Toast.LENGTH_SHORT).show();
-		}
-	}
+        if (tweet.isValid()) {
+            tweets.add(tweet);
+            adapter.notifyDataSetChanged();
 
-	public void clear(View v) {
-		tweets.clear();
-		adapter.notifyDataSetChanged();
-		tweetsProvider.saveTweets(tweets);
-	}
+            bodyText.setText("");
+            tweetsProvider.saveTweets(tweets);
+        } else {
+            Toast.makeText(this, "Invalid tweet", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void clear(View v) {
+        tweets.clear();
+        adapter.notifyDataSetChanged();
+        tweetsProvider.saveTweets(tweets);
+    }
 
 }
